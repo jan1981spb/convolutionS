@@ -18,6 +18,4 @@ class EdgesService {
   }
 
 }
-
 object EdgesService extends EdgesService
-

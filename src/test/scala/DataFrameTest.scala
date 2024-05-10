@@ -14,5 +14,4 @@ class DataFrameTest {
     val df = DataFrameSource.generateDataFrameWithIncreaseNumbersInEachRow(9, 8)
     assert(df.isLeft)
   }
-
 }

@@ -15,5 +15,4 @@ class SynchronousConvolutionFacade {
     val output: Output = ???
     output
   }
-
 }

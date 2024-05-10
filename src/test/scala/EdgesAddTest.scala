@@ -13,5 +13,4 @@ class EdgesAddTest{
     assert(supplementedInput.isRight)
   }
 
-
 }

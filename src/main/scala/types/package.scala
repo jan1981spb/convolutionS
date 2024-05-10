@@ -13,7 +13,6 @@ package object types {
       case _ => Left("width and height of input dataframe are not equal")
     }
   }
-
   final case class SupplementedDataFrame(input: Input)
   object SupplementedDataFrame {
     def apply(input: Input): Either[String, SupplementedDataFrame] = input match {
@@ -21,7 +20,6 @@ package object types {
       case _ => Left("width and height of supplemented dataframe are not equal")
     }
   }
-
   final case class Core(size: Int)
   object Core {
     def apply(size: Int): Option[Core] = size match {

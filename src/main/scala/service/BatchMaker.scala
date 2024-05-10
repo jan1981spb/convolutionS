@@ -15,7 +15,6 @@ object BatchMaker {
     val intervalsWithIndexes = ((0 until batchesNumber) by butchWightSize)
       .map { i => (i, i + butchWightSize - 1) }
       .zipWithIndex.map(pair => ((pair._2), (pair._1))).toMap
-
     val batches = Future.traverse(intervalsWithIndexes.keys)(index => Future(retrieveButchesFromRow(input, index, intervalsWithIndexes)))
       .map(list => list.foldLeft(Map.empty[(Int, Int), Seq[Seq[Int]]])((acc, batch) => acc ++ batch))
 

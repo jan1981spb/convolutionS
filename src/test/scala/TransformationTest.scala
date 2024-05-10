@@ -18,5 +18,4 @@ class TransformationTest {
 //    val input = Vector(Vector(1,2,3), Vector(1,2,3))
   //  assertThrows[AssertionError](conv.transformWithConvolution(input, coreSize = 3))
   }
-
 }
