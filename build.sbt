@@ -8,5 +8,6 @@ lazy val root = (project in file("."))
   )
 
 libraryDependencies += "com.softwaremill.macwire" %% "macros" % "2.5.9" % "provided"
+libraryDependencies += "org.typelevel" %% "cats-core" % "2.10.0"
 libraryDependencies += "org.junit.jupiter" % "junit-jupiter-api" % "5.2.0" % Test
-libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.9" % Test
+
