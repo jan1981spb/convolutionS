@@ -12,5 +12,6 @@ class DataFrameSource {
     InputDataFrame(input)
   }
 }
+
 object DataFrameSource extends DataFrameSource
 
