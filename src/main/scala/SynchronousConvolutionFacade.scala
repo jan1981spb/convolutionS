@@ -1,5 +1,5 @@
-import service.{DataFrameSource, EdgesService}
-import types.{Batches, Core, InputDataFrame, Output}
+import service.{BatchService, DataFrameSource, EdgesService}
+import types.{Core, Output, SquareMatrixBatchesFrameFrame}
 
 class SynchronousConvolutionFacade {
 
@@ -8,10 +8,10 @@ class SynchronousConvolutionFacade {
     for {
       inputFrame <- DataFrameSource.generateDataFrameWithIncreaseNumbersInEachRow(9, 9)
       dataFrameWithAddEdges <- EdgesService.addEdgesToDataFrame(inputFrame.input, core)
+      batches <- BatchService.createBatches[SquareMatrixBatchesFrameFrame](dataFrameWithAddEdges.input, 3)
 
-    } yield Right(dataFrameWithAddEdges)
+    } yield Right(batches)
 
-    val batches: Batches = ???
     val output: Output = ???
     output
   }
