@@ -45,7 +45,7 @@ package object types {
     }
   }
 
-  final case class OutputDataFrame(input: Output)
+  final case class OutputDataFrame(output: Output)
 
   object OutputDataFrame {
     def apply(input: Output): Either[String, OutputDataFrame] = input match {

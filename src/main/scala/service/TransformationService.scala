@@ -1,9 +1,19 @@
 package service
 
 import cats.Foldable
-import types.{Batch, OutputDataFrame}
+import types.{Batch, BatchesContent, OutputDataFrame}
 
 import scala.annotation.tailrec
+
+class MeanConvolutionTransformationService extends TransformationService with MeanConvolutionService
+
+trait ConvolutionService {
+  def foldElements(valuesFromElementNeighborhood: Seq[Int]): Double
+}
+
+trait MeanConvolutionService extends ConvolutionService {
+  override def foldElements(valuesFromElementNeighborhood: Seq[Int]): Double = valuesFromElementNeighborhood.sum / valuesFromElementNeighborhood.size
+}
 
 trait TransformationService extends ConvolutionService {
 
@@ -26,7 +36,7 @@ trait TransformationService extends ConvolutionService {
       val valuesFromCoreWithoutCentralEl = valuesFromCore.take(valuesFromCore.length / 2) :++ valuesFromCore.takeRight(valuesFromCore.length / 2)
       val updatedElement = foldElements(valuesFromCoreWithoutCentralEl)
 
-      if (rows.head.size - coreSize - 1 == begin) {
+      if (rows.head.size - coreSize == begin) {
         output :+ updatedElement
       } else calculateHelp(begin + 1, output :+ updatedElement)
     }

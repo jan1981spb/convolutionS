@@ -5,10 +5,10 @@ import types.{Batch, SquareMatrixBatchesFrameFrame, SupplementedInput}
 
 object BatchService {
 
-  def createBatches[Batches](input: SupplementedInput, batchesQuantity: Int)(implicit b: BatchesFactory[Batches]): Either[String, Batches] = b.createButches(input, batchesQuantity)
+  def createBatches[BatchesFrame](input: SupplementedInput, batchesQuantity: Int)(implicit b: BatchesFactory[BatchesFrame]): Either[String, BatchesFrame] = b.createButches(input, batchesQuantity)
 
-  trait BatchesFactory[Batches] {
-    def createButches(input: SupplementedInput, batchesQuantity: Int): Either[String, Batches]
+  trait BatchesFactory[BatchesFrame] {
+    def createButches(input: SupplementedInput, batchesQuantity: Int): Either[String, BatchesFrame]
   }
 
   object BatchesFactory {
@@ -16,7 +16,7 @@ object BatchService {
     implicit object SquareMatrixBatchesFactory extends BatchesFactory[SquareMatrixBatchesFrameFrame] {
       override def createButches(input: SupplementedInput, batchesQuantity: Int): Either[String, SquareMatrixBatchesFrameFrame] = {
         val inputWightSize = input.head.size
-        val batchesPerRow = Math.sqrt(batchesQuantity)
+        val batchesPerRow = Math.ceil(Math.sqrt(batchesQuantity))
         val batchWight = (inputWightSize / batchesPerRow).toInt
 
         val intervalsWithIndexes = ((0 to (batchWight) by batchesPerRow.toInt))

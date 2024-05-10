@@ -1,18 +1,20 @@
-import service.{BatchService, DataFrameSource, EdgesService}
-import types.{Core, Output, SquareMatrixBatchesFrameFrame}
+import service.{BatchService, DataFrameSource, EdgesService, MeanConvolutionTransformationService}
+import types.{Batch, BatchesContent, Core, SquareMatrixBatchesFrameFrame}
 
 class SynchronousConvolutionFacade {
 
-  def convolute(core: Core):Output = {
-
-    for {
-      inputFrame <- DataFrameSource.generateDataFrameWithIncreaseNumbersInEachRow(9, 9)
+  def convolute(core: Core): Unit = {
+    val conv = new MeanConvolutionTransformationService
+    val result= for {
+      inputFrame <- DataFrameSource.generateDataFrameWithIncreaseNumbersInEachRow(8, 8)
       dataFrameWithAddEdges <- EdgesService.addEdgesToDataFrame(inputFrame.input, core)
-      batches <- BatchService.createBatches[SquareMatrixBatchesFrameFrame](dataFrameWithAddEdges.input, 3)
-
-    } yield Right(batches)
-
-    val output: Output = ???
-    output
+      batchesFrame <- BatchService.createBatches[SquareMatrixBatchesFrameFrame](dataFrameWithAddEdges.input, 3)
+      batch <- Right(batchesFrame.batches.map(content => content._2).head)
+      output <- conv.transform(batch, core.size)
+    } yield output
+    result match {
+      case Right(output) => print(s"Success calculated : $output")
+      case Left(er) => print(s"Fail calculation : $er")
+    }
   }
 }
