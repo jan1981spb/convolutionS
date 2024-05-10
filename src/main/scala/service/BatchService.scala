@@ -25,12 +25,12 @@ object BatchService {
 
         val batches: Seq[((Int, Int), Batch)] = (for {
           indexInterval4Row <- intervalsWithIndexes.keys
-          batch <- retrieveBatchesFromRow(input, indexInterval4Row, intervalsWithIndexes)
+          batch <- retrieveBatchesFromRowGroup(input, indexInterval4Row, intervalsWithIndexes)
         } yield (batch)).toList sortBy (pair => pair._1._2)
         SquareMatrixBatchesFrameFrame(batches)
       }
 
-      def retrieveBatchesFromRow(input: SupplementedInput, indexInterval4Row: Int, intervalsWithIndexes: Map[Int, (Int, Int)]): Seq[((Int, Int), Batch)] = {
+      def retrieveBatchesFromRowGroup(input: SupplementedInput, indexInterval4Row: Int, intervalsWithIndexes: Map[Int, (Int, Int)]): Seq[((Int, Int), Batch)] = {
         intervalsWithIndexes.get(indexInterval4Row) match {
           case None => Seq((0, 0) -> Seq.empty)
           case Some(interval) => {

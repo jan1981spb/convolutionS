@@ -4,7 +4,7 @@ package object types {
   type SupplementedInput = Input
   type Batch = Input
   type BatchesContent = Seq[((Int, Int), Batch)]
-  type Output = Input
+  type Output = Seq[Seq[Double]]
 
 
   final case class InputDataFrame(input: Input)
@@ -16,11 +16,11 @@ package object types {
     }
   }
 
-  final case class SupplementedDataFrame(input: Input)
+  final case class DataFrameWithEdges(input: Input)
 
-  object SupplementedDataFrame {
-    def apply(input: Input): Either[String, SupplementedDataFrame] = input match {
-      case in if (in.size == in.head.size) => Right(new SupplementedDataFrame(in))
+  object DataFrameWithEdges {
+    def apply(input: Input): Either[String, DataFrameWithEdges] = input match {
+      case in if (in.size == in.head.size) => Right(new DataFrameWithEdges(in))
       case _ => Left("width and height of supplemented dataframe are not equal")
     }
   }
@@ -44,5 +44,15 @@ package object types {
       case _ => None
     }
   }
+
+  final case class OutputDataFrame(input: Output)
+
+  object OutputDataFrame {
+    def apply(input: Output): Either[String, OutputDataFrame] = input match {
+      case in if (in.size == in.head.size) => Right(new OutputDataFrame(in))
+      case _ => Left("width and height of output dataframe are not equal")
+    }
+  }
+
 
 }

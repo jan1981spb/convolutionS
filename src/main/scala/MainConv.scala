@@ -1,4 +1,4 @@
-import types.{Core, InputDataFrame}
+import types.{Core, OutputDataFrame}
 
 object MainConv {
 

@@ -9,7 +9,7 @@ class EdgesAddTest{
   def addEdgesToDataFrameSuccess(): Unit = {
     val core: Core = Core.apply(3).get
     val input: Input = Seq(1 to 3, 1 to 3, 1 to 3)
-    val supplementedInput: Either[String, types.SupplementedDataFrame] = EdgesService.addEdgesToDataFrame(input, core)
+    val supplementedInput: Either[String, types.DataFrameWithEdges] = EdgesService.addEdgesToDataFrame(input, core)
     assert(supplementedInput.isRight)
   }
 

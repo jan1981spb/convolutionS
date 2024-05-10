@@ -1,11 +1,11 @@
 package service
 
 import cats.Foldable
-import types.{Core, Input, SupplementedDataFrame, SupplementedInput}
+import types.{Core, Input, DataFrameWithEdges, SupplementedInput}
 
 class EdgesService {
 
-  def addEdgesToDataFrame(input: Input, core: Core): Either[String, SupplementedDataFrame] = {
+  def addEdgesToDataFrame(input: Input, core: Core): Either[String, DataFrameWithEdges] = {
     val additionalEdges = core.size / 2
     val edgeWithZeros = Vector.tabulate(additionalEdges)(_ * 0)
     val supplementedWithVerticalEdges: SupplementedInput = input.map(row => edgeWithZeros ++: row :++ edgeWithZeros)
@@ -14,7 +14,7 @@ class EdgesService {
     val supplementedWithHorizontalEdges = Foldable[Seq].foldLeft((1 to additionalEdges), supplementedWithVerticalEdges) {
       case (acc, _) => newRowWithZeros +: acc :+ newRowWithZeros
     }
-    SupplementedDataFrame(supplementedWithHorizontalEdges)
+    DataFrameWithEdges(supplementedWithHorizontalEdges)
   }
 
 }

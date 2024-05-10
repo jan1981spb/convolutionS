@@ -1,6 +1,6 @@
 package service
 
-import types.InputDataFrame
+import types.{InputDataFrame, OutputDataFrame}
 
 class DataFrameSource {
 
@@ -9,7 +9,7 @@ class DataFrameSource {
       _ <- 0 until inputHeigth
       batch = (1 to inputWeight).toList
     } yield batch
-    InputDataFrame(input)
+   InputDataFrame(input)
   }
 }
 
