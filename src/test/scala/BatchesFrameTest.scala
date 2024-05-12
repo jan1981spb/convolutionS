@@ -1,12 +1,12 @@
 import org.junit.jupiter.api.Test
 import service.BatchService
-import types.{BatchesContent, SquareMatrixBatchesFrameFrame, SupplementedInput}
+import types.{BatchesContent, SquareMatrixBatchesFrameFrame, InputWithAdditionalEdges}
 
 class BatchesFrameTest {
 
   @Test
-  def generateSquartMatrixBatchesSuccess(): Unit = {
-    val input: SupplementedInput = Seq(
+  def generateSquareMatrixBatchesSuccess(): Unit = {
+    val input: InputWithAdditionalEdges = Seq(
       Seq(0, 0, 0, 0, 0, 0),
       Seq(0, 1, 2, 3, 4, 0),
       Seq(0, 1, 2, 3, 4, 0),

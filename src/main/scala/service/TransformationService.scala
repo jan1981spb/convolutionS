@@ -1,7 +1,7 @@
 package service
 
 import cats.Foldable
-import types.{Batch, BatchesContent, OutputDataFrame}
+import types.{BatchesContent, OutputDataFrame}
 
 import scala.annotation.tailrec
 
@@ -17,12 +17,16 @@ trait MeanConvolutionService extends ConvolutionService {
 
 trait TransformationService extends ConvolutionService {
 
-  def transform(input: Batch, coreSize: Int): Either[String, OutputDataFrame] = {
-    val rowsGroups = input.sliding(coreSize, 1).toVector
-    val output = Foldable[Seq].foldLeft((0 until input.size - 2).toList, Seq.empty[Seq[Double]]) {
-      case (output, index) => output :+ calculateValuesFromRowsGroup(rowsGroups(index), coreSize)
+  def transform(batches: BatchesContent, coreSize: Int, inputSize: Int): Either[String, OutputDataFrame] = {
+    val output = Foldable[Seq].foldLeft(batches, Seq.empty[((Int, Int), (Seq[Double]))]) {
+      case (output, batchWithIndex) =>
+          val rowsGroups = batchWithIndex._2.sliding(coreSize, 1).toVector
+          val outputSubSetWithIndex = Foldable[Seq].foldLeft(rowsGroups, ((0, 0), Seq.empty[Double])) {
+            case (output, group) => (batchWithIndex._1, output._2 :++ calculateValuesFromRowsGroup(group, coreSize))
+          }
+      output :+ outputSubSetWithIndex
     }
-    OutputDataFrame(output)
+    OutputDataFrame(output, inputSize)
   }
 
   private def calculateValuesFromRowsGroup(rows: Seq[Seq[Int]], coreSize: Int): Seq[Double] = {
